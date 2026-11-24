@@ -35,11 +35,7 @@ class LoginPage {
 
     // Get error message
     async getErrorMessage() {
-        const errorMsg = await this.errormsg.textContent();
-
-        console.log('Login Error Message:', errorMsg);
-
-        return errorMsg;
+        return await this.errormsg.textContent();
     }
 
     // Login method

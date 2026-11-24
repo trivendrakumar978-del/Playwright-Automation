@@ -21,11 +21,10 @@ test('Invalid Login Test', async ({ page }) => {
 
     await login.openWebsite();
     await login.Login('wrong_user', 'wrong_password');
+   const errMsg= await login.getErrorMessage();
+   console.log('Error Msg',errMsg);
+await expect(login.errormsg).toHaveText('Epic sadface: Username and password do not match any user in this service');
 
-    await expect(login.errormsg)
-        .toContainText('Username and password do not match');
-
-    await login.getErrorMessage();
 });
 
 test('Add to Cart', async ({ page }) => {
@@ -43,7 +42,18 @@ test('Add to Cart', async ({ page }) => {
     // Verify Swag Labs logo
     await expect(addToCart.pageTitle).toHaveText('Swag Labs');
 
+    //get the item name
+    const itemName=await addToCart.getItemName();
+   console.log('Count:', itemName.length);
+console.log('ProductsNames:', itemName);
     // Add product to cart
     await addToCart.ClickAddToCartBtn();
+
+    // Verify cart count
+    const cartCount=await addToCart.getCartCount();
+    console.log('Cart Count:', cartCount);
+    await expect(addToCart.shoppingCartBadge).toHaveText('1');
+    //Remove Product from Cart
+    await addToCart.RemoveFromCartBtn();
 
 });
